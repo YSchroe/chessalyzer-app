@@ -15,6 +15,8 @@
         </div>
 
         <div>Some footer text.</div>
+
+        <button type="button">CLICK</button>
     </div>
 </template>
 

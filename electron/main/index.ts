@@ -64,10 +64,23 @@ async function createWindow() {
     }
 
     // Test actively push message to the Electron-Renderer
-    win.webContents.on('did-finish-load', () => {
-        win?.webContents.send(
-            'main-process-message',
-            new Date().toLocaleString()
+    win.webContents.on('did-finish-load', async () => {
+        const { Chessalyzer } = await import('chessalyzer.js')
+        const header = await Chessalyzer.analyzePGN(
+            // './manualTests/lichess_db_standard_rated_2014-09.pgn',
+            'C:/Users/yanni/Documents/GitHub/Chessalyzer/chessalyzer.js/test/lichess_db_standard_rated_2013-12.pgn'
+            // { config: { cntGames: 750000 }, trackers: [b] }
+            // null
+        )
+        win?.webContents.send('main-process-message', header)
+        // win?.webContents.send(
+        //     'main-process-message',
+        //     new Date().toLocaleString()
+        // )
+
+        console.log(header)
+        console.log(
+            `${header.cntGames} games (${header.cntMoves} moves) processed (${header.mps} moves/s)`
         )
     })
 
