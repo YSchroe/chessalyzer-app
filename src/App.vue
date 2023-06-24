@@ -1,19 +1,24 @@
 <template>
-    <div class="flex flex-col items-center justify-center">
-        <HelloWorld msg="Electron + Vite + Vue" />
+    <div
+        class="flex min-h-screen flex-col items-center bg-slate-800 text-white"
+    >
+        <nav class="flex h-16 items-center self-stretch bg-slate-700">
+            <img src="/logo_w.svg" class="ml-2 h-16" />
+            <div class="ml-2 text-xl tracking-wider">Chessalyzer</div>
+        </nav>
+        <div
+            class="m-10 grow self-stretch rounded-sm bg-white p-4 text-gray-800 shadow shadow-gray-100"
+        >
+            Hello. Lets go.
 
-        <div>Place static files into the <code>/public</code> folder</div>
-        <img
-            style="width: 2.4em; margin-left: 0.4em"
-            src="/logo.svg"
-            alt="Logo"
-        />
+            <div class="h-80 w-80 border-2 border-gray-800"></div>
+        </div>
+
+        <div>Some footer text.</div>
     </div>
 </template>
 
 <script setup lang="ts">
-    import HelloWorld from './components/HelloWorld.vue'
-
     console.log(
         '[App.vue]',
         `Hello world from Electron ${process.versions.electron}!`
