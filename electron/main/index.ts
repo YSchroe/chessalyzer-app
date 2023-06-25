@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron'
 import { release } from 'node:os'
 import { join } from 'node:path'
 
@@ -79,7 +79,10 @@ async function createWindow() {
     // win.webContents.on('will-navigate', (event, url) => { }) #344
 }
 
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+    ipcMain.handle('dialog:openFile', handleFileOpen)
+    createWindow()
+})
 
 app.on('window-all-closed', () => {
     win = null
@@ -108,8 +111,8 @@ ipcMain.handle('open-win', (_, arg) => {
     const childWindow = new BrowserWindow({
         webPreferences: {
             preload,
-            nodeIntegration: true,
-            contextIsolation: false
+            nodeIntegration: true
+            // contextIsolation: false
         }
     })
 
@@ -120,16 +123,18 @@ ipcMain.handle('open-win', (_, arg) => {
     }
 })
 
-async function test() {
-    const { Chessalyzer } = await import('chessalyzer.js')
-    const header = await Chessalyzer.analyzePGN(
-        // './manualTests/lichess_db_standard_rated_2014-09.pgn',
-        'C:/Users/yanni/Documents/GitHub/Chessalyzer/chessalyzer.js/test/lichess_db_standard_rated_2013-12.pgn'
-        // { config: { cntGames: 750000 }, trackers: [b] }
-        // null
-    )
-    win?.webContents.send('main-process-message', header)
-    console.log(
-        `${header.cntGames} games (${header.cntMoves} moves) processed (${header.mps} moves/s)`
-    )
+// CUSTOM IPC CHANNELS
+async function handleFileOpen() {
+    const { canceled, filePaths } = await dialog.showOpenDialog(win)
+    if (!canceled) {
+        const { Chessalyzer } = await import('chessalyzer.js')
+        const header = await Chessalyzer.analyzePGN(
+            // './manualTests/lichess_db_standard_rated_2014-09.pgn',
+            'C:/Users/yanni/Documents/GitHub/Chessalyzer/chessalyzer.js/test/lichess_db_standard_rated_2013-12.pgn',
+            { config: { cntGames: 10000 } }
+            // null
+        )
+        return header
+        // return filePaths[0]
+    }
 }

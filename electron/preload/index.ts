@@ -1,3 +1,5 @@
+import { contextBridge, ipcRenderer } from 'electron'
+
 function domReady(
     condition: DocumentReadyState[] = ['complete', 'interactive']
 ) {
@@ -92,3 +94,12 @@ window.onmessage = (ev) => {
 }
 
 setTimeout(removeLoading, 4999)
+
+// CUSTOM API
+// contextBridge.exposeInMainWorld('electronAPI', {
+//     openFile: () => ipcRenderer.invoke('dialog:openFile')
+// })
+
+window.electronAPI = {
+    openFile: () => ipcRenderer.invoke('dialog:openFile')
+}

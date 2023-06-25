@@ -16,7 +16,7 @@
 
         <div>Some footer text.</div>
 
-        <button type="button">CLICK</button>
+        <button type="button" @click="handleClick">CLICK</button>
     </div>
 </template>
 
@@ -25,6 +25,11 @@
         '[App.vue]',
         `Hello world from Electron ${process.versions.electron}!`
     )
+
+    async function handleClick() {
+        const filePath = await window.electronAPI.openFile()
+        console.log(filePath)
+    }
 </script>
 
 <style></style>
