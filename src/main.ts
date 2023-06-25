@@ -5,6 +5,7 @@ import './samples/node-api'
 
 createApp(App)
     .mount('#app')
+    // send message to remove loading screen (preload/index.ts)
     .$nextTick(() => {
         postMessage({ payload: 'removeLoading' }, '*')
     })
