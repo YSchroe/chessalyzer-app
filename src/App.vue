@@ -21,14 +21,22 @@
 </template>
 
 <script setup lang="ts">
+    import { TileTracker, Chessalyzer } from 'chessalyzer.js'
     console.log(
         '[App.vue]',
         `Hello world from Electron ${process.versions.electron}!`
     )
 
+    // Chessalyzer.printHeatmap()
+
     async function handleClick() {
-        const filePath = await window.electronAPI.openFile()
-        console.log(filePath)
+        const tileTrackerResult = await window.electronAPI.openFile()
+        // console.log(filePath)
+        const a = new TileTracker()
+        a.add(tileTrackerResult)
+        a.cntMovesTotal = tileTrackerResult.cntMovesTotal
+        Chessalyzer.printHeatmap(a.generateHeatmap('TILE_OCC_WHITE'))
+        console.log(a)
     }
 </script>
 

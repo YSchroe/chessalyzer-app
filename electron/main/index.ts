@@ -127,14 +127,16 @@ ipcMain.handle('open-win', (_, arg) => {
 async function handleFileOpen() {
     const { canceled, filePaths } = await dialog.showOpenDialog(win)
     if (!canceled) {
-        const { Chessalyzer } = await import('chessalyzer.js')
+        const { Chessalyzer, TileTracker } = await import('chessalyzer.js')
+        const a = new TileTracker()
         const header = await Chessalyzer.analyzePGN(
             // './manualTests/lichess_db_standard_rated_2014-09.pgn',
             'C:/Users/yanni/Documents/GitHub/Chessalyzer/chessalyzer.js/test/lichess_db_standard_rated_2013-12.pgn',
-            { config: { cntGames: 10000 } }
+            { config: { cntGames: 10000 }, trackers: [a] }
             // null
         )
-        return header
+
+        return JSON.parse(JSON.stringify(a))
         // return filePaths[0]
     }
 }
