@@ -131,7 +131,7 @@ async function handleFileOpen() {
         const a = new TileTracker()
         const header = await Chessalyzer.analyzePGN(
             // './manualTests/lichess_db_standard_rated_2014-09.pgn',
-            'C:/Users/yanni/Documents/GitHub/Chessalyzer/chessalyzer.js/test/lichess_db_standard_rated_2013-12.pgn',
+            filePaths[0],
             { config: { cntGames: 10000 }, trackers: [a] }
             // null
         )
