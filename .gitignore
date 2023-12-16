@@ -23,17 +23,3 @@ release
 *.njsproj
 *.sln
 *.sw?
-
-# lockfile
-package-lock.json
-pnpm-lock.yaml
-yarn.lock
-
-# yarn
-.yarn/*
-!.yarn/cache
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
